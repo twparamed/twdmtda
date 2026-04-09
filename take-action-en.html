@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Action Project | TWDMTDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #1B365D; --accent: #FF7F32; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .timeline-line::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background-color: #e2e8f0; z-index: 0; }
+        @media (max-width: 768px) { .timeline-line::before { left: 24px; transform: none; } }
+    </style>
+</head>
+<body class="bg-white">
+
+    <div id="navbar-placeholder"></div>
+
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-900 overflow-hidden">
+        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/652619526_1254431233467440_2181217770649905261_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=13d280&_nc_ohc=STmfrgr7UREQ7kNvwErWLN1&_nc_oc=Adow9bFvgEmS7zOijPkLQulG_M4JdlisSF1812fnvdOHbo_3XUoGX6kxfz9XT_rgqD0&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=YwXFByuJL-y_NVGAdzywJw&_nc_ss=7a3a8&oh=00_Af1JOr558JBxz36SgYoQQfjTyqo8FnGn_b_crulrQppY5w&oe=69DCD4C1" 
+             class="absolute inset-0 w-full h-full object-cover opacity-30">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center text-white">
+            <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-bold mb-6">
+                <span class="text-orange-400">AIT</span> × <span class="text-blue-300">GCTF</span> Partnership
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-black mb-6">Hands of Kindness<br><span class="text-orange-500 text-4xl lg:text-5xl">Take Action Project</span></h1>
+            <p class="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                Since 2021, TWDMTDA has been dedicated to First Responder training. Entering Phase 3.0, we focus on transforming frontline medical personnel in clinics, care facilities, and pharmacies into a robust defense net during disasters.
+            </p>
+        </div>
+    </header>
+
+    <section class="py-24 bg-slate-50 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-black text-primary mb-4">Evolution of the Project</h2>
+                <p class="text-slate-500">From civilian first aid to professional medical response.</p>
+            </div>
+            
+            <div class="relative timeline-line max-w-4xl mx-auto">
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center mb-16">
+                    <div class="md:w-5/12 text-right md:pr-8 mb-4 md:mb-0 hidden md:block">
+                        <h3 class="text-2xl font-bold text-primary">Foundations (1.0)</h3>
+                        <p class="text-slate-500 mt-2">Covering CPR, STOP THE BLEED®, and EMS notification skills.</p>
+                    </div>
+                    <div class="w-12 h-12 bg-white border-4 border-slate-200 rounded-full flex items-center justify-center text-slate-400 font-bold z-10 mx-auto md:mx-0 absolute left-[24px] md:left-1/2 transform md:-translate-x-1/2">21'</div>
+                    <div class="w-full md:w-5/12 pl-20 md:pl-8 text-left">
+                        <h3 class="text-2xl font-bold text-primary md:hidden">Foundations (1.0)</h3>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mt-2 md:mt-0">
+                            <span class="text-orange-500 font-bold text-sm">2021 Launch</span>
+                            <p class="text-slate-600 mt-2">Successfully trained 293 civilians, establishing basic mutual aid concepts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center mb-16">
+                    <div class="w-full md:w-5/12 pl-20 md:pr-8 text-left md:text-right mb-4 md:mb-0">
+                        <h3 class="text-2xl font-bold text-primary md:hidden">Expansion (2.0)</h3>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mt-2 md:mt-0">
+                            <span class="text-orange-500 font-bold text-sm">2022 Upgrades</span>
+                            <p class="text-slate-600 mt-2">Trained 816 individuals. Noticed an increasing participation from school nurses and clinic staff.</p>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 bg-white border-4 border-orange-200 rounded-full flex items-center justify-center text-orange-400 font-bold z-10 mx-auto md:mx-0 absolute left-[24px] md:left-1/2 transform md:-translate-x-1/2">22'</div>
+                    <div class="w-full md:w-5/12 pl-20 md:pl-8 text-left hidden md:block">
+                        <h3 class="text-2xl font-bold text-primary">Expansion (2.0)</h3>
+                        <p class="text-slate-500 mt-2">Introduced elements from FEMA CERT and Tactical Emergency Casualty Care (TECC).</p>
+                    </div>
+                </div>
+
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-center">
+                    <div class="md:w-5/12 text-right md:pr-8 mb-4 md:mb-0 hidden md:block">
+                        <h3 class="text-2xl font-bold text-primary">Global Standards (3.0)</h3>
+                        <p class="text-slate-500 mt-2">Promoting advanced medical training under the GCTF framework with AIT.</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-500 border-4 border-orange-200 shadow-lg shadow-orange-500/50 rounded-full flex items-center justify-center text-white font-bold z-10 mx-auto md:mx-0 absolute left-[24px] md:left-1/2 transform md:-translate-x-1/2"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="w-full md:w-5/12 pl-20 md:pl-8 text-left">
+                        <h3 class="text-2xl font-bold text-primary md:hidden">Global Standards (3.0)</h3>
+                        <div class="bg-primary p-6 rounded-2xl shadow-xl mt-2 md:mt-0 text-white border border-blue-800">
+                            <span class="text-orange-400 font-bold text-sm">2025-2027 Ongoing</span>
+                            <p class="text-slate-300 mt-2">Aiming to conduct 23 MPFR sessions nationwide, cultivating over 1,000 community medical professionals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-bold mb-4 inline-block">Core Modules</span>
+                <h2 class="text-4xl font-black text-primary mb-4">Three International Training Modules</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">Introducing high-standard trauma care training for clinics, care facilities, and pharmacies to enhance Taiwan's grassroots medical resilience.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl text-primary shadow-sm mb-6 group-hover:scale-110 transition"><i class="fa-solid fa-user-doctor"></i></div>
+                    <h3 class="text-2xl font-bold text-primary mb-3">MPFR<br><span class="text-lg text-slate-500 font-medium">Medical Professional First Responders</span></h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Providing advanced trauma skills for urban and community medical staff. Includes mass casualty response and medical station principles.</p>
+                    <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>23 sessions across Taiwan</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>For professionals with medical backgrounds</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl text-orange-500 shadow-sm mb-6 group-hover:scale-110 transition"><i class="fa-solid fa-mountain-sun"></i></div>
+                    <h3 class="text-2xl font-bold text-primary mb-3">ACC<br><span class="text-lg text-slate-500 font-medium">Austere Critical Care Instructor</span></h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Introducing international standards to train local core instructors. Deep dive into Damage Control and Prolonged Field Care.</p>
+                    <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Partnered with NTUNHS Resilience Base</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Training 32 top local instructors</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-2xl text-red-500 shadow-sm mb-6 group-hover:scale-110 transition"><i class="fa-solid fa-droplet"></i></div>
+                    <h3 class="text-2xl font-bold text-primary mb-3">Blood Program<br><span class="text-lg text-slate-500 font-medium">Community Advanced Blood Course</span></h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Partnering with THOR Network to discuss pre-hospital blood operations. Featuring experts from Seattle and Melbourne.</p>
+                    <ul class="space-y-2 text-sm text-slate-500 font-medium">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Improving major trauma survival rates</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Cross-professional standardized training</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-slate-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-primary mb-10">Advisory & Co-Organizers</h2>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-70">
+                <span class="text-xl font-black text-slate-800">Ministry of Health and Welfare</span>
+                <span class="text-xl font-black text-slate-800">National Fire Agency</span>
+                <span class="text-xl font-black text-slate-800">Medical Affairs Bureau</span>
+                <span class="text-xl font-black text-blue-900 border-l-2 border-slate-300 pl-12">AIT</span>
+                <span class="text-xl font-black text-blue-900">NTUNHS</span>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        async function loadComponents() {
+            try {
+                const navRes = await fetch('navbar-en.html');
+                document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
+                const footerRes = await fetch('footer-en.html');
+                document.getElementById('footer-placeholder').innerHTML = await footerRes.text();
+            } catch (error) { console.error("Component load failed", error); }
+        }
+        window.onload = loadComponents;
+    </script>
+</body>
+</html>
