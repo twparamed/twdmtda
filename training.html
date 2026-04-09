@@ -16,18 +16,25 @@
     </style>
 </head>
 <body class="bg-white">
+
     <div id="navbar-placeholder"></div>
 
     <header class="relative pt-32 pb-16 bg-slate-50 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-black text-primary mb-4">專業訓練紀錄</h1>
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <span class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-bold mb-4 inline-block">Training Records</span>
+            <h1 class="text-4xl md:text-5xl font-black text-primary mb-4">專業訓練與教育推廣</h1>
             <p class="text-lg text-slate-500 max-w-2xl mx-auto">致力於提升台灣民間災難醫療與第一線反應員的應變能力。</p>
         </div>
     </header>
 
     <section class="py-16 bg-white min-h-screen">
         <div class="max-w-7xl mx-auto px-6">
-            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="col-span-full py-20 text-center text-slate-400">
+                    <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4"></i>
+                    <p>正在載入訓練紀錄...</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -35,7 +42,9 @@
 
     <div id="detailModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
         <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-10 bg-white/80 p-2 rounded-full backdrop-blur-sm"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-10 bg-white/80 p-2 rounded-full backdrop-blur-sm">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
             <div id="modalContent" class="overflow-y-auto w-full h-full"></div>
         </div>
     </div>
@@ -45,8 +54,10 @@
         let globalData = [];
 
         async function loadComponents() {
-            const navRes = await fetch('navbar.html'); document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
-            const footerRes = await fetch('footer.html'); document.getElementById('footer-placeholder').innerHTML = await footerRes.text();
+            try {
+                const navRes = await fetch('navbar.html'); document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
+                const footerRes = await fetch('footer.html'); document.getElementById('footer-placeholder').innerHTML = await footerRes.text();
+            } catch (error) { console.error("組件載入失敗", error); }
         }
 
         async function init() {
@@ -54,22 +65,68 @@
             Papa.parse(SHEET_CSV_URL, {
                 download: true, header: true,
                 complete: function(results) {
-                    // ✨ 訓練頁面分類邏輯
+                    // 分類邏輯：Status 必須為 TRUE，且 Category_zh 包含「訓練」或「教育」
                     const trainingData = results.data.filter(row => {
-                        if (!row.Status) return false;
-                        const isTrue = String(row.Status).trim().toUpperCase() === "TRUE";
-                        const cat = row.Category_zh || "";
-                        // 只抓取類別包含「訓練」或「教育」的卡片
-                        return isTrue && (cat.includes("訓練") || cat.includes("教育"));
-                    }).reverse(); // 一樣反轉讓最新的在上面
-                    
-                    renderCards(trainingData);
+                        const statusStr = String(row.Status || "").trim().toUpperCase();
+                        if (statusStr !== "TRUE") return false;
+                        
+                        const catStr = String(row.Category_zh || "").toLowerCase();
+                        return catStr.includes("訓練") || catStr.includes("教育");
+                    });
+
+                    // 反轉陣列，讓最新填寫的資料顯示在最前面
+                    renderCards(trainingData.reverse());
                 }
             });
         }
-        
-        // renderCards() 與 Modal 控制邏輯與首頁完全相同，請直接從首頁複製貼上此處
-        // (為節省版面，此處省略重複的 renderCards 程式碼，請記得補上)
+
+        function renderCards(data) {
+            globalData = data;
+            const container = document.getElementById('card-container');
+            container.innerHTML = ''; 
+            
+            if (data.length === 0) {
+                container.innerHTML = '<p class="col-span-full text-center text-slate-500 py-10">目前尚無相關訓練紀錄。</p>';
+                return;
+            }
+
+            data.forEach((item, index) => {
+                const title = item.Title_zh || '無標題';
+                const summary = item.Summary_zh || '';
+                const imgUrl = item.Image_URL || 'https://via.placeholder.com/600x400?text=No+Image';
+                const category = item.Category_zh || '訓練';
+                const hasExternalLink = item.Link_URL && item.Link_URL.trim() !== '' && item.Link_URL !== '#';
+                
+                let actionButton = hasExternalLink ? 
+                    `<a href="${item.Link_URL}" target="_blank" class="flex items-center text-primary font-bold hover:text-orange-500 transition"><span class="bg-slate-100 p-2 rounded-full mr-3"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>前往連結</a>` : 
+                    `<button onclick="openModal(${index})" class="flex items-center text-primary font-bold hover:text-orange-500 transition"><span class="bg-slate-100 p-2 rounded-full mr-3"><i class="fa-solid fa-maximize"></i></span>詳細內容</button>`;
+
+                container.innerHTML += `
+                <div class="card-hover bg-white rounded-3xl border border-gray-100 shadow-xl shadow-slate-200/50 overflow-hidden flex flex-col">
+                    <div class="relative h-60 overflow-hidden bg-slate-100">
+                        <img src="${imgUrl}" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-primary/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full">${category}</div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col">
+                        <h3 class="text-2xl font-bold text-primary mb-3">${title}</h3>
+                        <p class="text-slate-500 leading-relaxed mb-6 flex-grow">${summary}</p>
+                        <div class="flex justify-between items-center pt-6 border-t border-slate-50">${actionButton}</div>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function openModal(index) {
+            const item = globalData[index];
+            document.getElementById('modalContent').innerHTML = `
+                <div class="w-full h-64 md:h-80 relative bg-slate-100"><img src="${item.Image_URL}" class="w-full h-full object-cover"></div>
+                <div class="p-8 md:p-12"><h2 class="text-3xl font-black text-primary mb-6">${item.Title_zh}</h2><div class="text-slate-600 leading-loose whitespace-pre-line">${item.Description_zh || '尚無詳細描述。'}</div></div>`;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('detailModal').classList.add('hidden'); }
+        window.onclick = function(event) { if (event.target == document.getElementById('detailModal')) closeModal(); }
+        window.onload = init;
     </script>
 </body>
 </html>
