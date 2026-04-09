@@ -13,13 +13,10 @@
         .text-primary { color: var(--primary); }
         .bg-primary { background-color: var(--primary); }
         .card-hover:hover { transform: translateY(-8px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        /* 預設隱藏 Modal，確保不會一載入就出現遮罩 */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
     </style>
 </head>
 <body class="bg-white">
 
-    <!-- 預留 Navbar 載入位置 -->
     <div id="navbar-placeholder"></div>
 
     <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-slate-50 overflow-hidden">
@@ -41,11 +38,10 @@
         </div>
     </section>
 
-    <!-- 預留 Footer 載入位置 -->
     <div id="footer-placeholder"></div>
 
-    <!-- 放大視窗 (Modal) -->
-    <div id="detailModal" class="modal flex items-center justify-center p-4">
+    <!-- 放大視窗 (Modal) - 初始狀態為 hidden -->
+    <div id="detailModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
         <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col">
             <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-10 bg-white/80 p-2 rounded-full backdrop-blur-sm">
                 <i class="fa-solid fa-xmark text-2xl"></i>
@@ -55,10 +51,10 @@
     </div>
 
     <script>
-        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_您的ID/pub?output=csv"; 
+        // 使用您指定的 Google Sheet CSV 網址
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSV1Hj2V0Xc1MMFSVime2_EmGN9_Gh30UGLt0eK29w-g8SJcurqDvhPrm0GXlrLfA4ChkqDVbzmmc6Q/pub?output=csv"; 
         let globalData = [];
 
-        // 動態載入 Navbar 與 Footer
         async function loadComponents() {
             try {
                 const navRes = await fetch('navbar.html');
@@ -73,11 +69,6 @@
 
         async function init() {
             await loadComponents();
-
-            if(SHEET_CSV_URL.includes("您的ID")) {
-                renderCards(getMockData());
-                return;
-            }
 
             Papa.parse(SHEET_CSV_URL, {
                 download: true, header: true,
@@ -102,7 +93,6 @@
                 // 判斷是否有外部連結
                 const hasExternalLink = item.Link_URL && item.Link_URL.trim() !== '' && item.Link_URL !== '#';
                 
-                // 根據連結狀態決定按鈕行為
                 let actionButton = '';
                 if (hasExternalLink) {
                     actionButton = `
@@ -146,17 +136,17 @@
                     <div class="text-slate-600 leading-loose whitespace-pre-line">${item.Description_zh || '尚無詳細描述。'}</div>
                 </div>
             `;
-            document.getElementById('detailModal').style.display = 'flex';
+            // 移除 hidden，顯示遮罩與內容
+            document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        function closeModal() { document.getElementById('detailModal').style.display = 'none'; }
-        window.onclick = function(event) { if (event.target == document.getElementById('detailModal')) closeModal(); }
-
-        function getMockData() {
-            return [
-                { Status: "TRUE", Title_zh: "北區醫療韌性推動基地", Category_zh: "援手計畫 3.0", Summary_zh: "有外部連結的卡片，點擊直接前往FB。", Image_URL: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=2070", Link_URL: "https://www.facebook.com/" },
-                { Status: "TRUE", Title_zh: "第一線醫療人員災難照護訓練", Category_zh: "專業訓練", Summary_zh: "沒有外部連結的卡片，點擊會彈出帶有遮罩的詳細視窗。", Description_zh: "詳細內容在這裡顯示...", Image_URL: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=2070", Link_URL: "" }
-            ];
+        function closeModal() { 
+            // 加入 hidden，隱藏遮罩與內容
+            document.getElementById('detailModal').classList.add('hidden'); 
+        }
+        
+        window.onclick = function(event) { 
+            if (event.target == document.getElementById('detailModal')) closeModal(); 
         }
 
         window.onload = init;
