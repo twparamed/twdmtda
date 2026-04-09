@@ -1,0 +1,20 @@
+<script>
+        async function init() {
+            await loadComponents(); // 記得載入 navbar-en.html
+            Papa.parse(SHEET_CSV_URL, {
+                download: true, header: true,
+                complete: function(results) {
+                    const projectData = results.data.filter(row => {
+                        if (!row.Status) return false;
+                        const isTrue = String(row.Status).trim().toUpperCase() === "TRUE";
+                        const catZh = row.Category_zh || "";
+                        const catEn = row.Category_en || "";
+                        // 判斷中英文類別關鍵字
+                        return isTrue && (catZh.includes("計畫") || catZh.includes("合作") || catEn.toLowerCase().includes("project"));
+                    }).reverse();
+                    
+                    renderCards(projectData);
+                }
+            });
+        }
+</script>

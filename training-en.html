@@ -1,0 +1,20 @@
+<script>
+        async function init() {
+            await loadComponents(); // 記得載入 navbar-en.html
+            Papa.parse(SHEET_CSV_URL, {
+                download: true, header: true,
+                complete: function(results) {
+                    const trainingData = results.data.filter(row => {
+                        if (!row.Status) return false;
+                        const isTrue = String(row.Status).trim().toUpperCase() === "TRUE";
+                        // 英文版可以判斷 Category_zh 或 Category_en
+                        const catZh = row.Category_zh || "";
+                        const catEn = row.Category_en || "";
+                        return isTrue && (catZh.includes("訓練") || catZh.includes("教育") || catEn.toLowerCase().includes("training"));
+                    }).reverse();
+                    
+                    renderCards(trainingData);
+                }
+            });
+        }
+</script>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專業訓練 | 台災 TWDMTDA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        :root { --primary: #1B365D; --accent: #FF7F32; }
+        body { font-family: 'Inter', 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .card-hover:hover { transform: translateY(-8px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    </style>
+</head>
+<body class="bg-white">
+    <div id="navbar-placeholder"></div>
+
+    <header class="relative pt-32 pb-16 bg-slate-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-black text-primary mb-4">專業訓練紀錄</h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">致力於提升台灣民間災難醫療與第一線反應員的應變能力。</p>
+        </div>
+    </header>
+
+    <section class="py-16 bg-white min-h-screen">
+        <div class="max-w-7xl mx-auto px-6">
+            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <div id="detailModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-10 bg-white/80 p-2 rounded-full backdrop-blur-sm"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <div id="modalContent" class="overflow-y-auto w-full h-full"></div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSV1Hj2V0Xc1MMFSVime2_EmGN9_Gh30UGLt0eK29w-g8SJcurqDvhPrm0GXlrLfA4ChkqDVbzmmc6Q/pub?output=csv"; 
+        let globalData = [];
+
+        async function loadComponents() {
+            const navRes = await fetch('navbar.html'); document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
+            const footerRes = await fetch('footer.html'); document.getElementById('footer-placeholder').innerHTML = await footerRes.text();
+        }
+
+        async function init() {
+            await loadComponents();
+            Papa.parse(SHEET_CSV_URL, {
+                download: true, header: true,
+                complete: function(results) {
+                    // ✨ 訓練頁面分類邏輯
+                    const trainingData = results.data.filter(row => {
+                        if (!row.Status) return false;
+                        const isTrue = String(row.Status).trim().toUpperCase() === "TRUE";
+                        const cat = row.Category_zh || "";
+                        // 只抓取類別包含「訓練」或「教育」的卡片
+                        return isTrue && (cat.includes("訓練") || cat.includes("教育"));
+                    }).reverse(); // 一樣反轉讓最新的在上面
+                    
+                    renderCards(trainingData);
+                }
+            });
+        }
+        
+        // renderCards() 與 Modal 控制邏輯與首頁完全相同，請直接從首頁複製貼上此處
+        // (為節省版面，此處省略重複的 renderCards 程式碼，請記得補上)
+    </script>
+</body>
+</html>

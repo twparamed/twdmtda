@@ -147,7 +147,7 @@
             } catch (error) { console.error("組件載入失敗", error); }
         }
 
-        async function init() {
+async function init() {
             await loadComponents();
             Papa.parse(SHEET_CSV_URL, {
                 download: true, header: true,
@@ -156,11 +156,15 @@
                         if (!row.Status) return false;
                         return String(row.Status).trim().toUpperCase() === "TRUE";
                     });
-                    renderCards(validData);
+
+                    // ✨ 首頁排序邏輯：將資料反轉 (最新的在最上面)，並只取前 6 筆
+                    const reversedData = validData.reverse();
+                    const latestData = reversedData.slice(0, 6); 
+                    
+                    renderCards(latestData);
                 }
             });
         }
-
         function renderCards(data) {
             globalData = data;
             const container = document.getElementById('card-container');

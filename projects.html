@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計畫動態 | 台災 TWDMTDA</title>
+    </head>
+<body class="bg-white">
+    <div id="navbar-placeholder"></div>
+
+    <header class="relative pt-32 pb-16 bg-slate-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-black text-primary mb-4">計畫動態與成果</h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">追蹤台災在推動韌性社會與國際合作的各項專案足跡。</p>
+        </div>
+    </header>
+
+    <section class="py-16 bg-white min-h-screen">
+        <div class="max-w-7xl mx-auto px-6">
+            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+        </div>
+    </section>
+
+    <script>
+        // ... (共用變數與 loadComponents) ...
+
+        async function init() {
+            await loadComponents();
+            Papa.parse(SHEET_CSV_URL, {
+                download: true, header: true,
+                complete: function(results) {
+                    // ✨ 計畫頁面分類邏輯
+                    const projectData = results.data.filter(row => {
+                        if (!row.Status) return false;
+                        const isTrue = String(row.Status).trim().toUpperCase() === "TRUE";
+                        const cat = row.Category_zh || "";
+                        // 只抓取類別包含「計畫」、「合作」或「專案」的卡片
+                        return isTrue && (cat.includes("計畫") || cat.includes("合作") || cat.includes("專案"));
+                    }).reverse();
+                    
+                    renderCards(projectData);
+                }
+            });
+        }
+        // ... (renderCards 等函數) ...
+    </script>
+</body>
+</html>
